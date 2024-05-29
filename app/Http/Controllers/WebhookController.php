@@ -74,7 +74,7 @@ class WebhookController extends Controller
 
         webhookModel::test([
             'payload'=$webhook_signature,
-        ])
+        ]);
 
 
 
