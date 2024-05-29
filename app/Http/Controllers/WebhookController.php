@@ -74,7 +74,7 @@ class WebhookController extends Controller
         $event_datas = $request->getContent();
 
         webhookModel::insert([
-            'payload'=>$request->all(),
+            'payload'=>$request,
             ]);
 
 /*
