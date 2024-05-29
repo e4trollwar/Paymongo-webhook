@@ -8,14 +8,11 @@
 
 
 <body>
-    <form method="POST" action="{{route('webhook')}}">
-        {{@csrf}}
-        <input type="text" name="name">
-        <input type="text" name="email">
-        <input type="text" name="phone">
-        <input type="text" name="total">
-        <input type="text" name="quantity">
-        <input type="text" name="description">
+    <form method="POST" action="{{route('checkout')}}">
+        @csrf
+        total:<input type="text" name="total"><br>
+        quantity:<input type="text" name="quantity"><br>
+        description:<input type="text" name="description"><br>
 
         <button>Checkout</button>
     </form>

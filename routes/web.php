@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WebhooksController;
+use App\Http\Controllers\WebhookController;
 
 
 Route::get('/', function () {
@@ -9,5 +9,6 @@ Route::get('/', function () {
 });
 
 
+Route::post('checkout',[WebhookController::class,'checkout'])->name('checkout');
 
-Route::post('webhook-reciever',[WebhookController::class,'webhook'])->name('webhook');
+Route::post('webhook-receiver',[WebhookController::class,'webhook'])->name('webhook');
