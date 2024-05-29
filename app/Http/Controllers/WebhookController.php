@@ -55,7 +55,7 @@ class WebhookController extends Controller
         curl_close($curl);
 
                 foreach ($decodedResponse as $key => $value) {
-           $checkout_url = $decodedResponse[$key]['attributes']['checkout_url'];
+                    $checkout_url = $decodedResponse[$key]['attributes']['checkout_url'];
 
            return redirect()->to($checkout_url);
         }
@@ -92,10 +92,19 @@ class WebhookController extends Controller
         //compare the te=xxxxx value with $computedSignature if same
         $mySignature = hash_equals($computedSignature,$webhook_signature_data);
 
+       
+
         if($mySignature == 1 || $mySignature == true){
-            webhookModel::insert([
-            'payload'=>$event_datas,
-            ]);
+            
+            foreach ($event_datas as $key => $value) {
+
+                webhookModel::insert([
+                    'payload'=>$event_datas[$key]['attributes']['type'],
+                ]);
+                
+            }
+
+            
 
         }else{
             webhookModel::insert([
@@ -103,9 +112,12 @@ class WebhookController extends Controller
             ]);
         }
         
+        
 
 
 
     }
 
 }
+
+
