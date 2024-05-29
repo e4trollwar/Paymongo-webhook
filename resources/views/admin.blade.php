@@ -21,7 +21,7 @@ notifications:
 var app = angular.module('myApp', []);
 app.controller('customersCtrl', function($scope, $http) {
 
-var source = new EventSource("{{route('notify')}}");
+var source = new EventSource("{{url('notify')}}");
     source.onmessage=function(event){
         $scope.notification =event.data;
         
