@@ -87,7 +87,7 @@ class WebhookController extends Controller
         //concatinate the time that we get from webhook_signature response ex: 17169545524{$event_datas}
         $webhook_time_with_json_data = $webhook_signature_time.'.'.$event_datas;
 
-        $computedSignature =hash_hmac('sha256', $webhook_time_with_json_dat,$webhook_secret );
+        $computedSignature =hash_hmac('sha256', $webhook_time_with_json_data,$webhook_secret );
 
         //compare the te=xxxxx value with $computedSignature if same
         $mySignature = hash_equals($computedSignature,$webhook_signature_data);
