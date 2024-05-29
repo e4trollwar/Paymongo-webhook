@@ -100,7 +100,7 @@ class WebhookController extends Controller
                 $output = $datas['attributes']['type'];
                 
                 webhookModel::insert([
-                'payload'=>$output,
+                'payload'=>$datas,
                 ]);
 
            }
