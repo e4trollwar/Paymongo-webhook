@@ -98,11 +98,14 @@ class WebhookController extends Controller
             
            foreach($request->getContent() as $datas){
                 $output = $datas['attributes']['type'];
-           }
-
+                
                 webhookModel::insert([
                 'payload'=>$output,
                 ]);
+
+           }
+
+                
 
             
             
