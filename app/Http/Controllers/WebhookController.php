@@ -72,7 +72,7 @@ class WebhookController extends Controller
         $webhook_secret = env('Webhook_Secret');
         $webhook_signature = $request->header('Paymongo-Signature');
 
-        $this->webhookModel::test([
+        webhookModel::insert([
             'payload'=>$webhook_signature,
         ]);
 
