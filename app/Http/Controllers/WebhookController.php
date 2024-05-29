@@ -71,10 +71,10 @@ class WebhookController extends Controller
     public function webhook(Request $request){
         $webhook_secret = env('Webhook_Secret');
         $webhook_signature = $request->header('Paymongo_Signature');
-        $event_datas = $request->getContent();
+        $event_datas = json_decode($request->getContent());
 
         webhookModel::insert([
-            'payload'=>$request->getContent()->attrbutes,
+            'payload'=>$event_datas,
             ]);
 
 /*
