@@ -9,7 +9,7 @@ class WebhookController extends Controller
 {
     //
 
-    public function __construct(){
+    public function __construct(){ 
         $this->webhookModel = New webhookModel();
 
     }
@@ -18,7 +18,7 @@ class WebhookController extends Controller
 
 
         $total =$request->total;
-        $quantity =$request->quantity;
+        //$quantity =$request->quantity;
         $description =$request->description;
 
         $curl = curl_init();
@@ -51,20 +51,37 @@ class WebhookController extends Controller
         $err = curl_error($curl);
 
         //get the checkout URL response from $response/curl response
+        //we need to decode the curl response
         $decodedResponse = json_decode($response, true);
         curl_close($curl);
 
-                foreach ($decodedResponse as $key => $value) {
+            foreach ($decodedResponse as $key => $value) {
+                    //we got this from json response, this is the checkout URL
                     $checkout_url = $decodedResponse[$key]['attributes']['checkout_url'];
 
-           return redirect()->to($checkout_url);
-        }
+                    //next, our page must be redirect on the checkout URL
+                    return redirect()->to($checkout_url);
+            }
         
 
     }
 
-    public function success(){
+    public function notify(){
+        $result= webhookModel::count();
 
+       
+        header('Content-type: text/event-stream');
+        header('Cache-Control: no-cache');
+        header('Connection: keep-alive');
+        if($result >= 1){
+            echo "data: " . json_encode($result) . "\n\n";
+        }else{
+            echo "data: " . "\n\n";
+        }
+        
+        ob_flush();
+        flush();
+        
     }
 
 

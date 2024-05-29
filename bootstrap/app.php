@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
-        //put webhook-reciever here
+        //put the route name 'webhook-receiver' here to bypass the csrf authentication
         $middleware->validateCsrfTokens(except:[
             
             'webhook-receiver'
