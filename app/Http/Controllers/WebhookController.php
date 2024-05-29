@@ -71,16 +71,12 @@ class WebhookController extends Controller
     public function webhook(Request $request){
         $webhook_secret = env('Webhook_Secret');
         $webhook_signature = $request->header('Paymongo_Signature');
-        $event_datas = json_decode($request->getContent(),true);
-
-        foreach($event_datas as $datas){
-            webhookModel::insert([
-            'payload'=>$datas['attributes']['type'],
-            ]);
-        }
+        $event_datas = $request->getContent();
+        $event_filter = json_decode($event_datas,true);
+        
         
 
-/*
+
         //split header_signature response into 2 parts the response from header is t=xxxxxx,te=xxxxxx,li=xxxxxx
         $webhook_signature_raw = preg_split("/,/",$webhook_signature);
         $webhook_signature_raw_time = preg_split("/=/",$webhook_signature_raw[0]);
@@ -102,16 +98,17 @@ class WebhookController extends Controller
 
         if($mySignature == 1 || $mySignature == true){
             
+           foreach($event_filter as $datas){
             webhookModel::insert([
-            'payload'=>$event_datas,
+            'payload'=>$datas['attributes']['type'],
             ]);
-
+        }
         }else{
             webhookModel::insert([
             'payload'=>'invalid',
             ]);
         }
-        */
+        
         
 
 
