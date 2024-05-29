@@ -70,11 +70,39 @@ class WebhookController extends Controller
 
     public function webhook(Request $request){
         $webhook_secret = env('Webhook_Secret');
-        $webhook_signature = $request->header('Paymongo-Signature');
+        $webhook_signature = $request->header('Paymongo_Signature');
+        $event_datas = $request->getContent();
 
-        webhookModel::insert([
-            'payload'=>$webhook_signature,
-        ]);
+
+
+        //split header_signature response into 2 parts the response from header is t=xxxxxx,te=xxxxxx,li=xxxxxx
+        $webhook_signature_raw = preg_split("/,/",$webhook_signature);
+        $webhook_signature_raw_time = preg_split("/=/",$webhook_signature_raw[0]);
+        $webhook_signature_raw_data = preg_split("/=/",$webhook_signature_raw[1]);
+
+        //final result
+        $webhook_signature_time = $webhook_signature_raw_time[1];
+        $webhook_signature_data = $webhook_signature_raw_data[1];
+
+        //concatinate the time that we get from webhook_signature response ex: 17169545524{$event_datas}
+        $webhook_time_with_json_data = $webhook_signature_time.'.'.$event_datas;
+
+        $computedSignature =hash_hmac('sha256', $webhook_time_with_json_dat,$webhook_secret );
+
+        //compare the te=xxxxx value with $computedSignature if same
+        $mySignature = hash_equals($computedSignature,$webhook_signature_data);
+
+        if($mySignature == 1 || $mySignature == true){
+            webhookModel::insert([
+            'payload'=>'valid',
+            ]);
+
+        }else{
+            webhookModel::insert([
+            'payload'=>'invalid',
+            ]);
+        }
+        
 
 
 
