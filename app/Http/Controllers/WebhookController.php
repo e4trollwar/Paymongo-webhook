@@ -96,10 +96,12 @@ class WebhookController extends Controller
 
         if($mySignature == 1 || $mySignature == true){
             
-           
+           foreach($request->getContent() as $datas){
+                $output = $datas['attributes']['type'];
+           }
 
                 webhookModel::insert([
-                'payload'=>$request->getContent(),
+                'payload'=>$output,
                 ]);
 
             
