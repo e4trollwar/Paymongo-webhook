@@ -73,9 +73,12 @@ class WebhookController extends Controller
         $webhook_signature = $request->header('Paymongo_Signature');
         $event_datas = json_decode($request->getContent(),true);
 
-        webhookModel::insert([
-            'payload'=>$event_datas['attributes']['type'],
+        foreach($event_datas as $datas){
+            webhookModel::insert([
+            'payload'=>$datas['attributes']['type'],
             ]);
+        }
+        
 
 /*
         //split header_signature response into 2 parts the response from header is t=xxxxxx,te=xxxxxx,li=xxxxxx
