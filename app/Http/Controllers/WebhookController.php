@@ -72,7 +72,7 @@ class WebhookController extends Controller
         $webhook_secret = env('Webhook_Secret');
         $webhook_signature = $request->header('Paymongo_Signature');
         $event_datas = $request->getContent();
-        $event_datas_json_format = json_encode($event_datas);
+        
 
 
         //split header_signature response into 2 parts the response from header is t=xxxxxx,te=xxxxxx,li=xxxxxx
@@ -99,7 +99,7 @@ class WebhookController extends Controller
             foreach ($event_datas_json_format as $key => $value) {
 
                 webhookModel::insert([
-                    'payload'=>$event_datas_json_format[$key]['attributes']['type'],
+                    'payload'=>$event_datas[$key]['data']['attributes']['type'],
                 ]);
                 
             }
