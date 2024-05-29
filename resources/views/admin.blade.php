@@ -21,7 +21,7 @@ notifications:
 var app = angular.module('myApp', []);
 app.controller('customersCtrl', function($scope, $http) {
 
-var source = new EventSource("{{url('notify')}}");
+var source = new EventSource("http://paymongo-webhook-production.up.railway.app/notify");
     source.onmessage=function(event){
         $scope.notification =event.data;
         
