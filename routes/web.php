@@ -14,4 +14,6 @@ Route::get('admin', function () {
 Route::post('checkout',[WebhookController::class,'checkout'])->name('checkout');
 
 Route::post('webhook-receiver',[WebhookController::class,'webhook'])->name('webhook');
+
+
 Route::get('notify',[WebhookController::class,'notify'])->name('notify');
